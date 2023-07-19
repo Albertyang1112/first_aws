@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="mb-3">Welcome, {{ user.first_name }}</h1>
+        <span>All posted recipes</span>
+        <a href="/recipes/new">+ Create</a>
+        <a href="/logout">Logout</a>
+        <table class="table table-hover mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Under</th>
+                    <th scope="col">Posted By</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                    <tr>
+                        <td scope="col">{{ recipe.name }}</td>
+                        {% if recipe.under == 1 %}
+                            <td scope="col">Yes</td>
+                        {% elif recipe.under == 0 %}
+                            <td scope="col">No</td>
+                        {% endif %}
+                        <td scope="col">{{ recipe.user.first_name }}</td>
+                        <td scope="col">
+                            <a href="/recipes/{{recipe.id}}" class="btn btn-primary">view recipe</a>
+                        {% if user.id == recipe.user_id %}
+                            <a href="/recipes/edit/{{recipe.id}}" class="btn btn-success ms-2">edit</a>
+                            <a href="/recipes/delete/{{recipe.id}}" class="btn btn-danger ms-2">delete</a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
